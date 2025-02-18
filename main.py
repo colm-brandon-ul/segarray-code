@@ -20,7 +20,7 @@ if __name__ == "__main__":
     args.add_argument('--img', type=str, default='input.png', required=False)
     
     args.add_argument('--remote_model', type=str, default="https://drive.google.com/uc?export=download&id=1pfVjit0_EO1w3J41EmISdXYZ549y60e0", required=False)
-    args.add_argument('--confidence_thresholds', type=list, default=[0.5,0.7,0.9,0.99,0.999,0.9999,0.99999], required=False)
+    args.add_argument('--confidence_thresholds', type=list, default=[0.5,0.7,0.8,0.9,0.99,0.999,0.9999,0.99999], required=False)
     args.add_argument('--output_dir', type=str, default='output', required=False)
 
     args = args.parse_args()
