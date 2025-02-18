@@ -1,9 +1,10 @@
 import argparse
-from PIL import Image
+from PIL import Image, ImageEnhance
 import cv2
 import numpy as np
 import os
 Image.MAX_IMAGE_PIXELS = None
+from tifffile import TiffFile
 
 
 
@@ -16,8 +17,13 @@ if __name__ == "__main__":
     args.add_argument('--epochs', type=int, default=10, required=False)
     args.add_argument('--model_input_width', type=int, default=1024, required=False)
     args.add_argument('--model_input_height', type=int, default=1024, required=False)
+
     # Inference only
     args.add_argument('--img', type=str, default='input.png', required=False)
+    # preprocess the image with contrast enhancement
+    args.add_argument('--preprocess', type=bool, default=False, required=False)
+    args.add_argument('--contast_factor', type=float, default=2, required=False)
+    args.add_argument('--page_number', type=int, default=0, required=False)
     
     args.add_argument('--remote_model', type=str, default="https://drive.google.com/uc?export=download&id=1pfVjit0_EO1w3J41EmISdXYZ549y60e0", required=False)
     args.add_argument('--confidence_thresholds', type=list, default=[0.5,0.7,0.9,0.99,0.999,0.9999,0.99999], required=False)
@@ -31,8 +37,29 @@ if __name__ == "__main__":
         # inference only
         from predict import get_rois_model
 
-        # load image
-        img = Image.open(args.img)
+        # check if it's a tiff
+
+        # regex for tiff files (include qptiff, etc..)
+        
+
+        if args.img.endswith('tif') or args.img.endswith('tiff'):
+
+            with TiffFile(args.img) as tif:
+                is_multipage = len(tif.pages) > 1
+                if is_multipage:
+                    img = tif.pages[args.page_number]
+                    img = img.asarray()
+                    img = Image.fromarray(img)
+                else:
+                    img = Image.open(args.img)
+
+        else:
+            # load image
+            img = Image.open(args.img)
+        if args.preprocess:
+            enhancer = ImageEnhance.Contrast(img)
+            img = enhancer.enhance(args.contast_factor)
+
         source_w, source_h = img.size
 
         p_rois = get_rois_model(img, args.confidence_thresholds, args.model_input_width, args.model_input_height, args.remote_model)
