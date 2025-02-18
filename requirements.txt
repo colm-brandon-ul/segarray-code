@@ -2,3 +2,4 @@ pillow
 requests
 numpy<2.0
 opencv-python
+tifffile
