@@ -30,7 +30,6 @@ if __name__ == "__main__":
 
     args = args.parse_args()
 
-    args = args.parse_args()
 
     if args.train:
         ...
