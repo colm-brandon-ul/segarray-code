@@ -3,3 +3,5 @@ parameters/*
 *.tiff
 *.pyc
 *.png
+*.qptiff
+.DS_Store
