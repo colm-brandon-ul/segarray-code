@@ -10,25 +10,25 @@ from tifffile import TiffFile
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
-    args.add_argument('--train', type=bool, default=False)
-    args.add_argument('--name', type=str, default='default')
-    args.add_argument('--lr', type=float, default=0.01, required=False)
-    args.add_argument('--batch_size', type=int, default=32, required=False)
-    args.add_argument('--epochs', type=int, default=10, required=False)
-    args.add_argument('--model_input_width', type=int, default=1024, required=False)
-    args.add_argument('--model_input_height', type=int, default=1024, required=False)
+    args.add_argument('--train', type=bool, default=False, help='Set to True to train the model, False for inference only')
+    args.add_argument('--name', type=str, default='default', help='Name of the model or experiment')
+    args.add_argument('--lr', type=float, default=0.01, required=False, help='Learning rate for training')
+    args.add_argument('--batch_size', type=int, default=32, required=False, help='Batch size for training')
+    args.add_argument('--epochs', type=int, default=10, required=False, help='Number of epochs for training')
+    args.add_argument('--model_input_width', type=int, default=1024, required=False, help='Width of the model input')
+    args.add_argument('--model_input_height', type=int, default=1024, required=False, help='Height of the model input')
 
     # Inference only
-    args.add_argument('--img', type=str, default='input.png', required=False)
-    # preprocess the image with contrast enhancement
-    args.add_argument('--preprocess', type=bool, default=False, required=False)
-    args.add_argument('--contast_factor', type=float, default=2, required=False)
-    args.add_argument('--page_number', type=int, default=0, required=False)
-    args.add_argument('--downsample_factor', type=int, default=5, required=False)
-    
-    args.add_argument('--remote_model', type=str, default="https://drive.google.com/uc?export=download&id=1pfVjit0_EO1w3J41EmISdXYZ549y60e0", required=False)
-    args.add_argument('--confidence_thresholds', type=list, default=[0.5,0.7,0.8,0.9,0.99,0.999,0.9999,0.99999], required=False)
-    args.add_argument('--output_dir', type=str, default='output', required=False)
+    args.add_argument('--img', type=str, default='input.png', required=False, help='Path to the input image for inference')
+    args.add_argument('--preprocess', type=bool, default=False, required=False, help='Set to True to preprocess the image with contrast enhancement')
+    args.add_argument('--contast_factor', type=float, default=2, required=False, help='Factor by which to enhance the contrast of the image')
+    args.add_argument('--page_number', type=int, default=0, required=False, help='Page number to use if the input image is a multipage TIFF')
+    args.add_argument('--downsample_factor', type=int, default=5, required=False, help='Factor by which to downsample the input image')
+    args.add_argument('--remote_model', type=str, default="https://drive.google.com/uc?export=download&id=1pfVjit0_EO1w3J41EmISdXYZ549y60e0", required=False, help='URL to download the remote model parameters')
+    args.add_argument('--confidence_thresholds', type=list, default=[0.5,0.7,0.8,0.9,0.99,0.999,0.9999,0.99999], required=False, help='List of confidence thresholds for ROI detection')
+    args.add_argument('--output_dir', type=str, default='output', required=False, help='Directory to save the output images')
+
+    args = args.parse_args()
 
     args = args.parse_args()
 
